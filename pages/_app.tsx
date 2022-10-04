@@ -40,6 +40,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
+      primary: {
+        main: '#338722',
+        contrastText: "#fff"
+      },
+      secondary: {
+        main: '#1d2127',
+        light: '#21252b',
+        contrastText: "#fff",
+      },
     },
     typography: {
       fontFamily: [

@@ -1,8 +1,9 @@
+import * as React from 'react';
 import {
-  Nightlight, Person, PowerSettingsNew, ViewHeadline, WbSunny, Drafts, ExpandLess, ExpandMore, MoveToInbox, Send, StarBorder
+  Nightlight, Person, PowerSettingsNew, ViewHeadline, WbSunny, Drafts, ExpandLess, ExpandMore, MoveToInbox, Send, StarBorder, NavigateNext, Home
 } from '@mui/icons-material';
 import {
-  Avatar, Box, Divider, ListItemText, MenuItem, Switch, Typography, useMediaQuery, useTheme
+  Avatar, Box, Divider, ListItemText, MenuItem, Switch, Typography, useMediaQuery, useTheme, Breadcrumbs as MuiBreadcrumbs, Link as MuiLink 
 } from '@mui/material/';
 import Collapse from '@mui/material/Collapse';
 import MuiList, { ListProps } from '@mui/material/List';
@@ -12,85 +13,33 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router';
-import * as React from 'react';
+import Link from 'next/link';
+
 
 const sidebarMenu = [
   {
     id: 1,
     text: 'Home',
-    icon: <Nightlight />,
+    icon: <Home />,
     path: '/'
   },
   {
-    id: 2,
-    text: 'Person',
-    icon: <Person />,
-    path: '/Person'
-  },
-  {
     id: 3,
-    text: 'PowerSettingsNew',
-    icon: <PowerSettingsNew />,
-    path: '/PowerSettingsNew',
-    expan: true,
-    expenMenus: [
-      'FireBase',
-      'SQL',
-    ]
+    text: 'Create',
+    icon: <Person />,
+    path: '/create'
   },
   {
     id: 4,
-    text: 'ViewHeadline',
-    icon: <ViewHeadline />,
-    path: '/ViewHeadline'
+    text: 'Update',
+    icon: <PowerSettingsNew />,
+    path: '/update',
   },
   {
     id: 5,
-    text: 'WbSunny',
-    icon: <WbSunny />,
-    path: '/WbSunny'
-  },
-  {
-    id: 6,
-    text: 'Drafts',
-    icon: <Drafts />,
-    path: '/Drafts',
-    expan: true,
-    expenMenus: [
-      'React-Router',
-      'React-Navigation',
-      'React-Native',
-    ]
-  },
-  {
-    id: 7,
-    text: 'ExpandLess',
-    icon: <ExpandLess />,
-    path: '/ExpandLess'
-  },
-  {
-    id: 8,
-    text: 'ExpandMore',
-    icon: <ExpandMore />,
-    path: '/ExpandMore'
-  },
-  {
-    id: 9,
-    text: 'MoveToInbox',
-    icon: <MoveToInbox />,
-    path: '/MoveToInbox'
-  },
-  {
-    id: 10,
-    text: 'Send',
-    icon: <Send />,
-    path: '/Send'
-  },
-  {
-    id: 11,
-    text: 'StarBorder',
-    icon: <StarBorder />,
-    path: '/StarBorder'
+    text: 'Delete',
+    icon: <ViewHeadline />,
+    path: '/delete'
   },
 ]
 
@@ -228,7 +177,7 @@ const activeListCSS = {
   }
 };
 
-const HeaderOne = ({auth, change, mode}) => {
+const HeaderOne = ({auth, change, mode}: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -247,6 +196,7 @@ const HeaderOne = ({auth, change, mode}) => {
         variant="h6"
         component="div"
         sx={{ flexGrow: 1 }}
+        noWrap
       >
         name with style
       </Typography>
@@ -348,16 +298,69 @@ const HeaderOne = ({auth, change, mode}) => {
   );
 };
 
+const Breadcrumbs = () => {
+  const { pathname } = useRouter();
+  const pathnames = pathname.split('/').filter(x => x);
+  return (
+    <MuiBreadcrumbs
+      maxItems={3}
+      separator={<NavigateNext fontSize="small" />}
+      aria-label="breadcrumb"
+      sx={{ '& .MuiBreadcrumbs-ol': { flexWrap: 'nowrap', width: '100%', overflow: 'auto' } }}
+    >
+      <Link href='/'>
+        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
+      </Link>
+      <Link href='/'>
+        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
+      </Link>
+      <Link href='/'>
+        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
+      </Link>
+      <Link href='/'>
+        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
+      </Link>
+      <Link href='/'>
+        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
+      </Link>
+      <Link href='/'>
+        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
+      </Link>
+      {/* {pathnames.map((path, index) => {
+        const routerTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+        const lastOne = index === pathnames.length - 1;
+        return lastOne ? (
+          <Typography color="white">
+            <strong>
+              {path}
+            </strong>
+          </Typography>
+        ) : (
+          <Link key={path} href={routerTo}>
+            <MuiLink key={path} underline="hover" color="white" sx={{ cursor: 'pointer' }}>
+              {path}
+            </MuiLink>
+          </Link>
+        )}
+      )} */}
+    </MuiBreadcrumbs>
+  );
+};
+
 export default function Laylout({ children, auth, setAuth, mode, change }: any) {
   const router = useRouter();
   const theme = useTheme();
   const xsOnly = useMediaQuery((t: any) => t.breakpoints.only('xs'));
-  const [menus, setMenus] = React.useState(sidebarMenu);
-  const [openSidebar, setOpenSidebar] = React.useState(true);
-  const [openNestedList, setOpenNestedList] = React.useState<object>({});
+  const [menus] = React.useState(sidebarMenu);
+  const [openSidebar, setOpenSidebar] = React.useState(false);
+  const [openNest, setOpenNest] = React.useState({id: '', open: false});
+  const [title, setTitle] = React.useState<string>();
 
-  const handleNestedList = (expen) => {
-    // setOpenNestedList(prevState => ( [...prevState,]));
+  React.useEffect(() => {
+    setTitle(document.title);
+  }, [title])
+  const handleNestList = (id: string) => {
+    setOpenNest({id, open: !openNest});
   };
 
   const handleSidebar = () => {
@@ -392,13 +395,18 @@ export default function Laylout({ children, auth, setAuth, mode, change }: any) 
           </Box>
 
           {/* breadcrumbs */}
-          <Box height={50} width='100%' display='flex' alignItems='center' justifyContent='space-between' borderBottom={4} borderColor='grey.800' color='#fff' bgcolor='secondary.dark'>
-            <Box ml={theme.spacing(2)} fontSize={20} position='relative' height='100%'>
-              <Box display={{ sm: 'block', xs: 'none' }} ml={theme.spacing(2)} height={43} position='absolute' top={7} left={0} borderBottom={4} borderColor='primary.main'>
-                Tittle
+          <Box height={50} width='100%' display='flex' alignItems='center' justifyContent='flex-end' borderBottom={4} borderColor='grey.800' color='#fff' bgcolor='secondary.dark'>
+            {/* Title */}
+            <Box display={{ sm: 'block', xs: 'none' }} ml={theme.spacing(2)} fontSize={20} position='relative' flexGrow={1} height='50%'>
+              <Box whiteSpace='nowrap' ml={theme.spacing(2)} height={43} position='absolute' top={-5} left={0} borderBottom={4} borderColor='primary.main'>
+                {title}
               </Box>
             </Box>
-            <Box mr={theme.spacing(2)} borderLeft={1} borderColor='grey.800' px={theme.spacing(2)}>Home \ Library \ Data</Box>
+            
+            {/* breadcrumbs */}
+            <Box role="presentation" mr={theme.spacing(2)} borderLeft={1} borderColor='grey.800' px={theme.spacing(2)} sx={xsOnly && {width: '100%'}} bgcolor='#d0d' overflow='auto'>
+              <Breadcrumbs />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -423,7 +431,7 @@ export default function Laylout({ children, auth, setAuth, mode, change }: any) 
             ":hover": { minWidth: 300, maxWidth: 300 },
           }}
         >
-          <List sx={{minWidth: xsOnly ? '100%' : 300,maxWidth: xsOnly ? '100%' : 300}}>
+          <List sx={{minWidth: xsOnly ? '100%' : 300, maxWidth: xsOnly ? '100%' : 300}}>
             {/* heading 1 */}
             <>
               <Box>
@@ -447,26 +455,16 @@ export default function Laylout({ children, auth, setAuth, mode, change }: any) 
               </Box>
               {menus.map((menu, index) => (
                 <>
-                  <ListItemButton key={index} sx={router.pathname === menu.path ? activeListCSS: null} onClick={menu.expenMenus ? handleNestedList(!menu.expan) : () => router.push(menu.path)}>
+                  <ListItemButton
+                    key={index}
+                    sx={router.pathname === menu.path ? activeListCSS : null}
+                    onClick={() => router.push(menu.path)}
+                  >
                     <ListItemIcon>
                       {menu.icon}
                     </ListItemIcon>
                     <ListItemText primary={menu.text} />
                   </ListItemButton>
-                  {menu.expenMenus && (
-                    <Collapse sx={!openSidebar && {display: 'none'}} in={menu.expan} timeout="auto" unmountOnExit>
-                      <List disablePadding>
-                        {menu.expenMenus.map((expenMenu, index) => (
-                          <ListItemButton key={index} sx={{ pl: theme.spacing(5) }}>
-                            <ListItemIcon>
-                              <StarBorder/>
-                            </ListItemIcon>
-                            <ListItemText primary={expenMenu[index]} />
-                          </ListItemButton>
-                        ))}
-                      </List>
-                    </Collapse>
-                  )}
                 </>
               ))}
             </>
@@ -491,73 +489,158 @@ export default function Laylout({ children, auth, setAuth, mode, change }: any) 
                   </>
                 )}
               </Box>
-              <ListItemButton onClick={() =>handleNestedList('list3', true)}>
+              <ListItemButton
+                sx={router.pathname === '/nest' || router.pathname === '/nest/nest1' || router.pathname === '/nest/nest2'  ? activeListCSS : null}
+                onClick={() => handleNestList('nest')}
+              >
                 <ListItemIcon>
-                  <MoveToInbox/>
+                  <MoveToInbox />
                 </ListItemIcon>
-                <ListItemText primary="Inbox" />
-                {openNestedList === 'list3' ? <ExpandLess /> : <ExpandMore />}
+                <ListItemText primary="Nest" />
+                {openNest.id ===  'nest' && openNest.open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse sx={!openSidebar && {display: 'none'}} in={openNestedList === 'list3'} timeout="auto" unmountOnExit>
+              <Collapse
+                sx={{ display: !openSidebar ? 'none' : 'block' }}
+                in={openNest.id ===  'nest' || router.pathname === '/nest' || router.pathname === '/nest/nest1' || router.pathname === '/nest/nest2'}
+                timeout="auto"
+                unmountOnExit
+              >
                 <List disablePadding>
-                  <ListItemButton sx={{ pl: theme.spacing(5) }}>
+                  <ListItemButton
+                    sx={router.pathname === '/nest' ? {...activeListCSS, pl: 5}: {pl: 5}}
+                    onClick={() => router.push('/nest')}
+                  >
                     <ListItemIcon>
-                      <StarBorder/>
+                      <StarBorder />
                     </ListItemIcon>
-                    <ListItemText primary="Starred" />
+                    <ListItemText primary="Nest Index" />
                   </ListItemButton>
-                  <ListItemButton sx={{ pl: theme.spacing(5) }}>
+                  <ListItemButton
+                    sx={router.pathname === '/nest/nest1' ? {...activeListCSS, pl: 5}: {pl: 5}}
+                    onClick={() => router.push('/nest/nest1')}
+                  >
                     <ListItemIcon>
-                      <StarBorder/>
+                      <StarBorder />
                     </ListItemIcon>
-                    <ListItemText primary="Starred" />
+                    <ListItemText primary="Nest 1" />
                   </ListItemButton>
-                  <ListItemButton sx={{ pl: theme.spacing(5) }}>
+                  <ListItemButton
+                    sx={router.pathname === '/nest/nest2' ? {...activeListCSS, pl: 5} : {pl: 5}}
+                    onClick={() => router.push('/nest/nest2')}
+                  >
                     <ListItemIcon>
-                      <StarBorder/>
+                      <StarBorder />
                     </ListItemIcon>
-                    <ListItemText primary="Starred" />
+                    <ListItemText primary="Nest 2" />
                   </ListItemButton>
                 </List>
               </Collapse>
-              <ListItemButton>
+              <ListItemButton
+                sx={router.pathname === '/sendEmail' ? activeListCSS : null}
+                onClick={() => router.push('sendEmail')}
+              >
                 <ListItemIcon>
-                  <Send/>
+                  <Send />
                 </ListItemIcon>
                 <ListItemText primary="Sent mail" />
               </ListItemButton>
-              <ListItemButton>
+              <ListItemButton
+                sx={router.pathname === '/drafts' ? activeListCSS : null}
+                onClick={() => router.push('drafts')}
+              >
                 <ListItemIcon>
                   <Drafts />
                 </ListItemIcon>
                 <ListItemText primary="Drafts" />
               </ListItemButton>
-              <ListItemButton onClick={() =>handleNestedList('list4', true)}>
+              <ListItemButton
+                sx={router.pathname === '/starBorder' || router.pathname === '/starBorder/starBorder1' || router.pathname === '/starBorder/starBorder2'  ? activeListCSS : null}
+                onClick={() => handleNestList('starBorder')}
+              >
                 <ListItemIcon>
-                  <MoveToInbox/>
+                  <MoveToInbox />
                 </ListItemIcon>
-                <ListItemText primary="Inbox" />
-                {openNestedList === 'list4' ? <ExpandLess /> : <ExpandMore />}
+                <ListItemText primary="Star Border" />
+                {openNest.id ===  'starBorder' && openNest.open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse sx={!openSidebar && {display: 'none'}} in={openNestedList === 'list4'} timeout="auto" unmountOnExit>
+              <Collapse
+                sx={{ display: !openSidebar ? 'none' : 'block' }}
+                in={openNest.id ===  'starBorder' || router.pathname === '/starBorder' || router.pathname === '/starBorder/starBorder1' || router.pathname === '/starBorder/starBorder2'}
+                timeout="auto" unmountOnExit
+              >
                 <List disablePadding>
-                  <ListItemButton sx={{ pl: theme.spacing(5) }}>
+                  <ListItemButton
+                    sx={router.pathname === '/starBorder' ? {...activeListCSS, pl: 5}: {pl: 5}}
+                    onClick={() => router.push('/starBorder')}
+                  >
                     <ListItemIcon>
-                      <StarBorder/>
+                      <StarBorder />
                     </ListItemIcon>
-                    <ListItemText primary="Starred" />
+                    <ListItemText primary="Star Border Index" />
                   </ListItemButton>
-                  <ListItemButton sx={{ pl: theme.spacing(5) }}>
+                  <ListItemButton
+                    sx={router.pathname === '/starBorder/starBorder1' ? {...activeListCSS, pl: 5}: {pl: 5}}
+                    onClick={() => router.push('/starBorder/starBorder1')}
+                  >
                     <ListItemIcon>
-                      <StarBorder/>
+                      <StarBorder />
                     </ListItemIcon>
-                    <ListItemText primary="Starred" />
+                    <ListItemText primary="Star Border 1" />
                   </ListItemButton>
-                  <ListItemButton sx={{ pl: theme.spacing(5) }}>
+                  <ListItemButton
+                    sx={router.pathname === '/starBorder/starBorder2' ? {...activeListCSS, pl: 5} : {pl: 5}}
+                    onClick={() => router.push('/starBorder/starBorder2')}
+                  >
                     <ListItemIcon>
-                      <StarBorder/>
+                      <StarBorder />
                     </ListItemIcon>
-                    <ListItemText primary="Starred" />
+                    <ListItemText primary="Star Border 2" />
+                  </ListItemButton>
+                </List>
+              </Collapse>
+              <ListItemButton
+                sx={router.pathname === '/other' || router.pathname === '/other/other1' || router.pathname === '/other/other2'  ? activeListCSS : null}
+                onClick={() => handleNestList('other')}
+              >
+                <ListItemIcon>
+                  <MoveToInbox />
+                </ListItemIcon>
+                <ListItemText primary="Other" />
+                {openNest.id ===  'other' && openNest.open ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse
+                sx={{ display: !openSidebar ? 'none' : 'block' }}
+                in={openNest.id ===  'other' || router.pathname === '/other' || router.pathname === '/other/other1' || router.pathname === '/other/other2'}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List disablePadding>
+                  <ListItemButton
+                    sx={router.pathname === '/other' ? {...activeListCSS, pl: 5}: {pl: 5}}
+                    onClick={() => router.push('/other')}
+                  >
+                    <ListItemIcon>
+                      <StarBorder />
+                    </ListItemIcon>
+                    <ListItemText primary="Other Index" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={router.pathname === '/other/other1' ? {...activeListCSS, pl: 5}: {pl: 5}}
+                    onClick={() => router.push('/other/other1')}
+                  >
+                    <ListItemIcon>
+                      <StarBorder />
+                    </ListItemIcon>
+                    <ListItemText primary="Other 1" />
+                  </ListItemButton>
+                  <ListItemButton
+                    sx={router.pathname === '/other/other2' ? {...activeListCSS, pl: 5} : {pl: 5}}
+                    onClick={() => router.push('/other/other2')}
+                  >
+                    <ListItemIcon>
+                      <StarBorder />
+                    </ListItemIcon>
+                    <ListItemText primary="Other 2" />
                   </ListItemButton>
                 </List>
               </Collapse>
