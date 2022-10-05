@@ -308,25 +308,7 @@ const Breadcrumbs = () => {
       aria-label="breadcrumb"
       sx={{ '& .MuiBreadcrumbs-ol': { flexWrap: 'nowrap', width: '100%', overflow: 'auto' } }}
     >
-      <Link href='/'>
-        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
-      </Link>
-      <Link href='/'>
-        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
-      </Link>
-      <Link href='/'>
-        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
-      </Link>
-      <Link href='/'>
-        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
-      </Link>
-      <Link href='/'>
-        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
-      </Link>
-      <Link href='/'>
-        <MuiLink noWrap underline="hover" color="white" sx={{ cursor: 'pointer' }}>Mahfudz Masyhur</MuiLink>
-      </Link>
-      {/* {pathnames.map((path, index) => {
+      {pathnames.map((path, index) => {
         const routerTo = `/${pathnames.slice(0, index + 1).join('/')}`;
         const lastOne = index === pathnames.length - 1;
         return lastOne ? (
@@ -342,7 +324,7 @@ const Breadcrumbs = () => {
             </MuiLink>
           </Link>
         )}
-      )} */}
+      )}
     </MuiBreadcrumbs>
   );
 };
@@ -404,7 +386,7 @@ export default function Laylout({ children, auth, setAuth, mode, change }: any) 
             </Box>
             
             {/* breadcrumbs */}
-            <Box role="presentation" mr={theme.spacing(2)} borderLeft={1} borderColor='grey.800' px={theme.spacing(2)} sx={xsOnly && {width: '100%'}} bgcolor='#d0d' overflow='auto'>
+            <Box role="presentation" mr={theme.spacing(2)} borderLeft={1} borderColor='grey.800' px={theme.spacing(2)} sx={xsOnly && {width: '100%'}} overflow='auto'>
               <Breadcrumbs />
             </Box>
           </Box>
